@@ -1,0 +1,28 @@
+BIG2015:
+  root: '../resources/BIG2015'
+  original: 'train'
+  converted: 'converted'
+  images: 'images'
+
+  masked: 'masked_images'
+  deleted: 'deleted_images'
+  single: 'single_images'
+  ensemble: 'ensemble'
+
+  family: ["Ramnit", "Lollipop", "Kelihos_ver3", "Vundo", "Simda", "Tracur", "Kelihos_ver1", "Obfuscator.ACY", "Gatak"]
+  num_family: 9
+
+log:
+  root: "../logs/ss/"
+  tensor_board: "tensorboard_log"
+model_dir:
+  model: './model_dict'
+  file_version: 1
+
+use_dataset: BIG2015
+
+section_list: ['allSection', 'text', 'rdata', 'data', 'idata']
+load_section_list: ['allSection', 'text', 'rdata', 'data']
+ensemble_section_list: ['text', 'rdata', 'data']
+
+all_model_mode: [1, 3, 4, 5]
