@@ -6,9 +6,9 @@ from torchvision import transforms
 
 
 class ConfigParameter():
-    """パラメータを管理するクラス
-    """
     def __init__(self):
+        """パラメータを管理するクラス
+        """
         # コマンドライン引数からのパラメータ
         self.args = self._parse_args()
 
@@ -66,12 +66,12 @@ class ConfigParameter():
 
         return args
 
-    def _load_yaml(self, filepath: str) -> dict:
+    def _load_yaml(self, yaml_path: str) -> dict:
         """指定されたパスのyamlファイルからパラメータを読み込む
 
         Parameters
         ----------
-        filename : str
+        yaml_path : str
             読み込みたいyamlファイルのパス
 
         Returns
@@ -80,7 +80,7 @@ class ConfigParameter():
             読み込んだパラメータの辞書
         """
 
-        with open(filepath, 'r') as yml:
+        with open(yaml_path, 'r') as yml:
             config = yaml.safe_load(yml)
 
         return config
