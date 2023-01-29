@@ -2,10 +2,10 @@ import os
 import numpy as np
 import copy
 import argparse
-from components import judge_section_boundary, convert_and_save
+from .components import judge_section_boundary, convert_and_save
 
 
-def deleted_section_bytes(malware_bytes: list, asm_path: str, section: str, first: int, last: int) -> list:
+def create_deleted_section_bytes(malware_bytes: list, asm_path: str, section: str, first: int, last: int) -> list:
     """指定セクションを削除したマルウェアのバイト列を返す
 
     Parameters
@@ -74,10 +74,10 @@ def make_deleted_image(params: argparse.Namespace, malware_bytes: list, filename
     last : int
         対象ファイルの終了アドレス
     """
-    asm_path = os.path.join(params.yaml[params.yaml['use_dataset']]['root'], params.yaml['dirs']['original'], label, filename, '.asm')  # .asm用ファイルパス
+    asm_path = os.path.join(params.yaml[params.yaml['use_dataset']]['root'], params.yaml['dirs']['original'], label, filename + '.asm')  # .asm用ファイルパス
 
     # 対象セクションを削除したバイナリ配列を作成する
-    deleted_section_bytes = deleted_section_bytes(malware_bytes, asm_path, section, first, last)
+    deleted_section_bytes = create_deleted_section_bytes(malware_bytes, asm_path, section, first, last)
 
     # 例外処理 - 削除したときにデータがすべてなくなったら
     if np.array(deleted_section_bytes).shape[0] == 0:

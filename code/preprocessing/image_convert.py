@@ -4,7 +4,7 @@ import numpy as np
 import argparse
 from tqdm import tqdm
 
-from section_images import get_section_name, convert_and_save, make_masked_image, make_deleted_image, make_single_image
+from .section_images import get_section_name, convert_and_save, make_masked_image, make_deleted_image, make_single_image
 
 # マルウェアを画像に変換する関数(全セクション画像と各セクションをマスクした画像の生成)
 def image_convert(params: argparse.Namespace, mode: str):
@@ -26,7 +26,8 @@ def image_convert(params: argparse.Namespace, mode: str):
                 if '.bytes' != name[-6:]:
                     continue
                 name = name[:-6]
-                print('Processing ' + name)
+                pbar.set_postfix(progress=name)
+                # print('Processing ' + name)
 
                 # .asmファイルから含まれるセクション名をすべて取得する
                 section_name = get_section_name(os.path.join(original_data_path, name + '.asm'))
@@ -79,7 +80,7 @@ def image_convert(params: argparse.Namespace, mode: str):
                         make_single_image(params, malware_bytes, name, sname, label, first, last)
 
                 # 元画像(加工前)を保存
-                save_dir = os.path.join(params.yaml[params.yaml['use_dataset']]['root'], params.yaml['dirs']['masked'], 'allSection', label)
+                save_dir = os.path.join(params.yaml[params.yaml['use_dataset']]['root'], params.yaml['dirs'][mode], 'allSection', label)
                 convert_and_save(np.array(malware_bytes), name, save_dir)
                 del malware_bytes  # 削除
 

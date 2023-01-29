@@ -2,10 +2,10 @@ import os
 import numpy as np
 import copy
 import argparse
-from components import judge_section_boundary, convert_and_save
+from .components import judge_section_boundary, convert_and_save
 
 
-def masked_section_bytes(malware_bytes: list, asm_path: str, section: str, first: int, last: int) -> list:
+def create_masked_section_bytes(malware_bytes: list, asm_path: str, section: str, first: int, last: int) -> list:
     """指定セクションをマスクしたマルウェアのバイト列を返す
 
     マスク: 0(黒)にする
@@ -70,10 +70,10 @@ def make_masked_image(params: argparse.Namespace, malware_bytes: list, filename:
     last : int
         対象ファイルの終了アドレス
     """
-    asm_path = os.path.join(params.yaml[params.yaml['use_dataset']]['root'], params.yaml['dirs']['original'], label, filename, '.asm')  # .asm用ファイルパス
+    asm_path = os.path.join(params.yaml[params.yaml['use_dataset']]['root'], params.yaml['dirs']['original'], label, filename + '.asm')  # .asm用ファイルパス
 
     # 対象セクションをマスクしたバイナリ配列を作成する
-    masked_section_bytes = masked_section_bytes(malware_bytes, asm_path, section, first, last)
+    masked_section_bytes = create_masked_section_bytes(malware_bytes, asm_path, section, first, last)
 
     # 指定されたパスに画像を保存する
     dir_path = os.path.join(params.yaml[params.yaml['use_dataset']]['root'], params.yaml['dirs']['masked'], (section[1:] if section[0] == '.' else section), label)
