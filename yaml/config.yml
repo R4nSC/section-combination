@@ -5,6 +5,7 @@ BIG2015:
 
 Malimg:
   root: '../resources/Malimg'
+  family: ["Adialer.C", "Agent.FYI", "Allaple.A", "Allaple.L", "Alueron.gen!J"]
   num_family: 25
 
 dirs:
@@ -26,7 +27,7 @@ model_dir:
   model: './model_dict'
   file_version: 1
 
-use_dataset: 'BIG2015'
+use_dataset: 'Malimg'
 
 section_list: ['allSection', 'text', 'rdata', 'data', 'idata']
 load_section_list: ['allSection', 'text', 'rdata', 'data']
