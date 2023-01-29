@@ -2,7 +2,8 @@ import os
 import numpy as np
 import copy
 import argparse
-from .components import judge_section_boundary, convert_and_save
+import itertools
+from .components import judge_section_boundary, convert_and_save, delete_question_mark_for_malimg
 
 
 def create_single_section_bytes(malware_bytes: list, asm_path: str, section: str, first: int, last: int) -> list:
@@ -82,12 +83,14 @@ def make_single_image(params: argparse.Namespace, malware_bytes: list, filename:
     # 対象セクションのみのバイナリ配列を作成する
     single_section_bytes = create_single_section_bytes(malware_bytes, asm_path, section, first, last)
 
+    single_section_bytes = delete_question_mark_for_malimg(single_section_bytes)
+
     # 例外処理 - 何もないデータだったら
     if np.array(single_section_bytes).shape[0] == 0:
         # (Debug用) 作成できなかったマルウェアをログに記録する
         log_path = os.path.join(params.yaml['log']['root'], params.yaml['log']['error'])
         with open(log_path, 'a', encoding='UTF-8') as error_file:
-            error_file.write('not created single images: {} {}\n'.format(label, filename))
+            error_file.write('not created {} single images: {} {}\n'.format(section, label, filename))
     else:
         # 指定されたパスに画像を保存する
         dir_path = os.path.join(params.yaml[params.yaml['use_dataset']]['root'], params.yaml['dirs']['single'], (section[1:] if section[0] == '.' else section), label)

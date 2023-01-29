@@ -1,6 +1,7 @@
 import os
 import shutil
 import argparse
+import itertools
 import numpy as np
 from typing import Tuple
 from math import log
@@ -113,3 +114,10 @@ def convert_and_save(binary: np.array, filename: str, dir_path: str) -> Image:
     # 指定したパスに変換した画像を保存する
     im.save(os.path.join(dir_path, filename + '.png'), "PNG")
     return im
+
+
+def delete_question_mark_for_malimg(bytes):
+    bytes_1D = list(itertools.chain.from_iterable(bytes))
+    bytes_1D_deleted = [byte for byte in bytes_1D if byte != '??']
+    bytes_2D_deleted = np.array(bytes_1D_deleted).reshape(-1, 16).tolist()
+    return bytes_2D_deleted

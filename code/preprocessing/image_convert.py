@@ -4,7 +4,7 @@ import numpy as np
 import argparse
 from tqdm import tqdm
 
-from .section_images import get_section_name, convert_and_save, make_masked_image, make_deleted_image, make_single_image
+from .section_images import get_section_name, convert_and_save, delete_question_mark_for_malimg, make_masked_image, make_deleted_image, make_single_image
 
 # マルウェアを画像に変換する関数(全セクション画像と各セクションをマスクした画像の生成)
 def image_convert(params: argparse.Namespace, mode: str):
@@ -57,7 +57,10 @@ def image_convert(params: argparse.Namespace, mode: str):
                             continue
 
                         # 16進数データを10進数に変換している
-                        malware_bytes.append([int(i, 16) if i != '??' else 0 for i in data[1:]])
+                        if params.yaml['use_dataset'] == 'Malimg':
+                            malware_bytes.append([int(i, 16) if i != '??' else i for i in data[1:]])
+                        else:
+                            malware_bytes.append([int(i, 16) if i != '??' else 0 for i in data[1:]])
 
                     # .bytesファイルの最初のアドレスを取得
                     last = int(data[0], 16) + 16
@@ -78,6 +81,8 @@ def image_convert(params: argparse.Namespace, mode: str):
                 elif mode == 'single':
                     for sname in section_name:
                         make_single_image(params, malware_bytes, name, sname, label, first, last)
+
+                malware_bytes = delete_question_mark_for_malimg(malware_bytes)
 
                 # 元画像(加工前)を保存
                 save_dir = os.path.join(params.yaml[params.yaml['use_dataset']]['root'], params.yaml['dirs'][mode], 'allSection', label)

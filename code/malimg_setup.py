@@ -1,6 +1,7 @@
 import os
 from tqdm import tqdm
 import argparse
+import shutil
 
 from utils import ConfigParameter, make_logger
 
@@ -40,9 +41,9 @@ def malimg_data_shaping(params: argparse.Namespace):
                         else:
                             # データが欠損している場合は'00'で補完する
                             if int(now_address, 16) - before_address > before_byte_num:
-                                # 欠損しているバイト数を計算して，そのバイト数分補完する
+                            # 欠損しているバイト数を計算して，そのバイト数分補完する
                                 add_byte_num = (int(now_address, 16) - before_address) - before_byte_num
-                                malware_bytes.extend(['00'] * add_byte_num)
+                                malware_bytes.extend(['??'] * add_byte_num)
 
                         # バイト列をリストに追加する
                         malware_bytes.extend(data[1:])
@@ -60,8 +61,27 @@ def malimg_data_shaping(params: argparse.Namespace):
                         output_index += 16
 
 
+def reset_setup(params: argparse.Namespace, before_dir: str, after_dir: str):
+    for label in params.yaml[params.yaml['use_dataset']]['family']:
+        before_path = os.path.join(before_dir, label)
+        if os.path.exists(before_path) == False:
+            continue
+        after_path = os.path.join(after_dir, label)
+        os.makedirs(after_path, exist_ok=True)
+        files = os.listdir(before_path)
+        os.makedirs(after_path, exist_ok=True)
+
+        for name in files:
+            shutil.move(os.path.join(before_path, name), after_path)
+
 if __name__ == '__main__':
     params = ConfigParameter()
     logger = make_logger()
+
+    # リセットフラグが立っていたらデータ(converted/)を元のディレクトリ(train/)に戻す
+    if params.args.setup_reset:
+        converted_dir = os.path.join(params.yaml[params.yaml['use_dataset']]['root'], params.yaml['dirs']['converted'])
+        original_dir = os.path.join(params.yaml[params.yaml['use_dataset']]['root'], params.yaml['dirs']['original'])
+        reset_setup(params, converted_dir, original_dir)
 
     malimg_data_shaping(params)
