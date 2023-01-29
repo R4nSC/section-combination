@@ -35,6 +35,13 @@ class ConfigParameter():
         """
         parser = argparse.ArgumentParser()
 
+        # setup.py
+        parser.add_argument('-s', '--setup-mode', default='masked',
+                            choices=['masked', 'deleted', 'single'],
+                            help='type of image to create (default: masked)')
+        parser.add_argument('--setup-reset', action='store_true',
+                            help='Flag for image generation reset(default: False')
+
         parser.add_argument('-n', '--network', default='vgg16',
                             choices=['vgg16', 'resnet50'],
                             help='models network architecture (default: vgg)')
