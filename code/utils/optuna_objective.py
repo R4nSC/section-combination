@@ -6,7 +6,7 @@ from sklearn.metrics import accuracy_score
 
 
 # optunaの目的関数を設定する
-def objective_variable(params: argparse.Namespace, features: dict, labels: dict) -> function:
+def objective_variable(params: argparse.Namespace, features: dict, labels: dict):
     """optunaの目的関数を設定する
 
     Parameters
