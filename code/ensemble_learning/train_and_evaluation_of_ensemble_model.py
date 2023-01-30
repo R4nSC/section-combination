@@ -36,9 +36,12 @@ def training_and_evaluting_of_ensemble_model(params, logger, data_loaders, data_
         logger.info("Finished training model by section stand-alone images.")
 
         # 3モデルの結果をアンサンブルして最終的な結果を出す
+        accuracy = {}
         logger.info("Started evaluating ensemble model.")
-        print(f"--- Test ensemble model ---\n")
-        accuracy = evaluation_of_ensemble_model(params, logger, model_ft, data_loaders)
-        logger.info("Finished evaluating ensemble model.")
+        for mode in params.yaml['all_model_mode']:
+            print(f"--- Test ensemble model Number {mode}---\n")
+            params.args.model_mode = mode
+            accuracy[mode] = evaluation_of_ensemble_model(params, logger, model_ft, data_loaders)
+            logger.info("Finished evaluating ensemble model.")
 
     return accuracy

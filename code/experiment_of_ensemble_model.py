@@ -64,11 +64,16 @@ if __name__ == '__main__':
             #     missed_memo.close()
 
         # 交差検証の結果を出力する
-        total = 0.0
+        total = {}
         for key, value in results.items():
-            print(f'Fold {key}: {value}')
-            total += value
-        print(f'\nCross-Validation Average: {total / len(results.items())}')
+            for mode in params.yaml['all_model_mode']:
+                print(f'Model{mode} Fold {key}: {value}')
+                if key == 0:
+                    total[mode] = value[mode]
+                else:
+                    total[mode] += value[mode]
+        for mode in params.yaml['all_model_mode']:
+            print(f'\nModel{mode} Cross-Validation Average: {total[mode] / len(results.items())}')
     else:
         # .text/.rdata/.dataの3セクションをすべて持つサンプルからデータセットを作成
         logger.info("Started loading the datasets.")
