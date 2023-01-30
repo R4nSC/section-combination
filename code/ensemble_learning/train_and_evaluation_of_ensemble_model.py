@@ -38,19 +38,19 @@ def train_and_evaluation_of_ensemble_model(params, logger, data_loaders, data_si
         # 3モデルの結果をアンサンブルして最終的な結果を出す
         accuracy = {}
         logger.info("Started evaluating ensemble model.")
-        accuracy = evaluation_of_ensemble_model(params, logger, model_ft, data_loaders)
-        # # 組み込みなし
-        # for mode in params.yaml['all_model_mode']:
-        #     print(f"--- Test ensemble model Number {mode}---\n")
-        #     params.args.model_mode = mode
-        #     accuracy[mode] = evaluation_of_ensemble_model(params, logger, model_ft, data_loaders)
+        # accuracy = evaluation_of_ensemble_model(params, logger, model_ft, data_loaders)
+        # 組み込みなし
+        for mode in params.yaml['all_model_mode']:
+            print(f"--- Test ensemble model Number {mode}---\n")
+            params.args.model_mode = mode
+            accuracy[mode] = evaluation_of_ensemble_model(params, logger, model_ft, data_loaders)
 
-        # # 組み込みあり
-        # params.yaml['ensemble_section_list'].insert(0, 'allSection')
-        # for mode in params.yaml['all_model_mode']:
-        #     print(f"--- Test ensemble model Number {mode}---\n")
-        #     params.args.model_mode = mode
-        #     accuracy['builtin-' + mode] = evaluation_of_ensemble_model(params, logger, model_ft, data_loaders)
+        # 組み込みあり
+        params.yaml['ensemble_section_list'].insert(0, 'allSection')
+        for mode in params.yaml['all_model_mode']:
+            print(f"--- Test ensemble model Number builtin-{mode}---\n")
+            params.args.model_mode = mode
+            accuracy[mode + 10] = evaluation_of_ensemble_model(params, logger, model_ft, data_loaders)
         logger.info("Finished evaluating ensemble model.")
 
     return accuracy

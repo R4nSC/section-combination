@@ -67,13 +67,19 @@ if __name__ == '__main__':
         total = {}
         for key, value in results.items():
             for mode in params.yaml['all_model_mode']:
-                print(f'Model{mode} Fold {key}: {value}')
+                print(f'Model {mode} Fold {key}: {value[mode]}')
                 if key == 0:
                     total[mode] = value[mode]
                 else:
                     total[mode] += value[mode]
+                print(f'Model builtin-{mode} Fold {key}: {value[mode+10]}')
+                if key == 0:
+                    total[mode + 10] = value[mode + 10]
+                else:
+                    total[mode + 10] += value[mode + 10]
         for mode in params.yaml['all_model_mode']:
             print(f'\nModel{mode} Cross-Validation Average: {total[mode] / len(results.items())}')
+            print(f'\nModel builtin-{mode} Cross-Validation Average: {total[mode + 10] / len(results.items())}')
     else:
         # .text/.rdata/.dataの3セクションをすべて持つサンプルからデータセットを作成
         logger.info("Started loading the datasets.")
