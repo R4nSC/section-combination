@@ -2,7 +2,7 @@ from .evaluation_phase import evaluation_of_ensemble_model
 from .training_phase import train_of_ensemble_model
 
 # アンサンブル型マルウェア分類モデルの学習および評価
-def training_and_evaluting_of_ensemble_model(params, logger, data_loaders, data_sizes):
+def train_and_evaluation_of_ensemble_model(params, logger, data_loaders, data_sizes):
     # 2. 3セクションの単体画像で各モデルを学習する
     model_ft = {}
 
