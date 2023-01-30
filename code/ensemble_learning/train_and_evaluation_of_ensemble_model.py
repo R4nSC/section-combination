@@ -16,7 +16,7 @@ def train_and_evaluation_of_ensemble_model(params, logger, data_loaders, data_si
     else:
         # 各セクション単体画像のモデルを学習および評価する
         logger.info("Started training model by section stand-alone images.")
-        for section_name in params.yaml['ensemble_section_list']:
+        for section_name in params.yaml['load_section_list']:
             # # モデルを訓練するもしくは訓練済みのパラメータをそのまま使用する
             # model_filename = f'{section_name}_{args.network}_e{args.epochs}_b{args.batch_size}_ver{MODEL_FILE_VERSION}.pth'
             # model_path = f'{MODEL_DIR}/{model_filename}'
@@ -38,10 +38,19 @@ def train_and_evaluation_of_ensemble_model(params, logger, data_loaders, data_si
         # 3モデルの結果をアンサンブルして最終的な結果を出す
         accuracy = {}
         logger.info("Started evaluating ensemble model.")
-        for mode in params.yaml['all_model_mode']:
-            print(f"--- Test ensemble model Number {mode}---\n")
-            params.args.model_mode = mode
-            accuracy[mode] = evaluation_of_ensemble_model(params, logger, model_ft, data_loaders)
-            logger.info("Finished evaluating ensemble model.")
+        accuracy = evaluation_of_ensemble_model(params, logger, model_ft, data_loaders)
+        # # 組み込みなし
+        # for mode in params.yaml['all_model_mode']:
+        #     print(f"--- Test ensemble model Number {mode}---\n")
+        #     params.args.model_mode = mode
+        #     accuracy[mode] = evaluation_of_ensemble_model(params, logger, model_ft, data_loaders)
+
+        # # 組み込みあり
+        # params.yaml['ensemble_section_list'].insert(0, 'allSection')
+        # for mode in params.yaml['all_model_mode']:
+        #     print(f"--- Test ensemble model Number {mode}---\n")
+        #     params.args.model_mode = mode
+        #     accuracy['builtin-' + mode] = evaluation_of_ensemble_model(params, logger, model_ft, data_loaders)
+        logger.info("Finished evaluating ensemble model.")
 
     return accuracy
