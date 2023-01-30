@@ -119,5 +119,7 @@ def convert_and_save(binary: np.array, filename: str, dir_path: str) -> Image:
 def delete_question_mark_for_malimg(bytes):
     bytes_1D = list(itertools.chain.from_iterable(bytes))
     bytes_1D_deleted = [byte for byte in bytes_1D if byte != '??']
+    while(len(bytes_1D_deleted) % 16 != 0):
+        bytes_1D_deleted.append(0)
     bytes_2D_deleted = np.array(bytes_1D_deleted).reshape(-1, 16).tolist()
     return bytes_2D_deleted

@@ -1,5 +1,5 @@
-from feature_extraction_and_ensemble import feature_extraction_by_DLmodel, training_MLalgorithm, ensemble_by_average, ensemble_by_voting, ensemble_by_MLalgorithm
-from classification_test import calc_results_from_predicts_and_labels
+from .feature_extraction_and_ensemble import feature_extraction_by_DLmodel, training_MLalgorithm, ensemble_by_average, ensemble_by_voting, ensemble_by_MLalgorithm
+from .classification_test import calc_results_from_predicts_and_labels
 
 # アンサンブル型モデル用の分類タスク評価
 def evaluation_of_ensemble_model(params, logger, features_models, data_loaders):

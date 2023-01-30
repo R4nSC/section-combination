@@ -1,3 +1,3 @@
-from .train_and_evaluation_of_ensemble_model import training_and_evaluting_of_ensemble_model
+from .train_and_evaluation_of_ensemble_model import train_and_evaluation_of_ensemble_model
 
 __all__ = ['train_and_evaluation_of_ensemble_model']

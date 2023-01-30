@@ -7,7 +7,7 @@ import torch.nn as nn
 from torch.optim import lr_scheduler
 
 sys.path.append('../')
-from evaluation_phase import multi_classification_test
+from ..evaluation_phase import multi_classification_test
 from models import CNN
 
 
