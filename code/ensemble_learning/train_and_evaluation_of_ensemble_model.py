@@ -47,10 +47,13 @@ def train_and_evaluation_of_ensemble_model(params, logger, data_loaders, data_si
 
         # 組み込みあり
         params.yaml['ensemble_section_list'].insert(0, 'allSection')
+        print(params.yaml['ensemble_section_list'])
         for mode in params.yaml['all_model_mode']:
             print(f"--- Test ensemble model Number builtin-{mode}---\n")
             params.args.model_mode = mode
             accuracy[mode + 10] = evaluation_of_ensemble_model(params, logger, model_ft, data_loaders)
+        params.yaml['ensemble_section_list'].remove('allSection')
+        print(params.yaml['ensemble_section_list'])
         logger.info("Finished evaluating ensemble model.")
 
     return accuracy

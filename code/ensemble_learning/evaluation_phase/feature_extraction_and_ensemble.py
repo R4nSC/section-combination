@@ -124,11 +124,13 @@ def training_MLalgorithm(params, feature_model, data_loaders):
 
     # 事前に決められたモードに従って使用する分類器を決定する
 
-    # 3つのモデルから抽出した特徴量を結合する
+    # モデルから抽出した特徴量を結合する
     train_bond_vectors = create_bond_vectors(params, train_features)
     val_bond_vectors = create_bond_vectors(params, val_features)
     # train_bond_vectors = torch.cat((train_features['text'], train_features['rdata'], train_features['data']), 1)
     # val_bond_vectors = torch.cat((val_features['text'], val_features['rdata'], val_features['data']), 1)
+
+    print(train_bond_vectors.shape)
 
     # CPUで計算するようにデータ型を変更しておく
     train_vectors_cpu = train_bond_vectors.cpu()
@@ -148,7 +150,7 @@ def training_MLalgorithm(params, feature_model, data_loaders):
     # optunaによるハイパラチューニング
     sampler = optuna.samplers.TPESampler(seed=0)
     study = optuna.create_study(sampler=sampler, direction="maximize")
-    study.optimize(objective_variable(params, features, labels), n_trials=500)
+    study.optimize(objective_variable(params, features, labels), n_trials=100, gc_after_trial=True)
 
     print(f'Best Train Accuracy: {study.best_value}')
     print(f'Best Parameter: {study.best_params}')

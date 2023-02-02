@@ -125,6 +125,8 @@ def classification_model(params, model, data_loaders, datasets_size):
 def train_of_ensemble_model(params, data_loaders, datasets_size, section=None):
     cnn = CNN(params, section)
 
+    print(cnn.model)
+
     cnn.model = classification_model(params, cnn.model, data_loaders, datasets_size)
 
     # モデルのパラメータを保存

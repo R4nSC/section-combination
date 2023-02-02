@@ -44,10 +44,10 @@ def objective_variable(params: argparse.Namespace, features: dict, labels: dict)
             kernel = trial.suggest_categorical('kernel', ['poly', 'rbf', 'sigmoid'])
             classifier = SVC(C=C_num, gamma=gamma, kernel=kernel)
         elif params.args.model_mode == 5:  # LR
-            solver = trial.suggest_categorical('solver', ['newton-cg', 'lbfgs', 'liblinear', 'sag'])
-            C_num = trial.suggest_loguniform('C', 0.001, 100)
+            # solver = trial.suggest_categorical('solver', ['newton-cg', 'lbfgs', 'liblinear', 'sag'])
+            # C_num = trial.suggest_loguniform('C', 0.001, 100)
             max_iter = trial.suggest_int('max_iter', 100, 100000)
-            classifier = LogisticRegression(solver=solver, C=C_num, max_iter=max_iter)
+            classifier = LogisticRegression(max_iter=max_iter)
 
         # trainで訓練した後に，valを予測する
         classifier.fit(features['train'], labels['train'])

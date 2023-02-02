@@ -8,6 +8,7 @@ def evaluation_of_ensemble_model(params, logger, features_models, data_loaders):
                                   features_models,
                                   data_loaders,
                                   data_mode='test')
+    print(all_pred_by_section['text'].shape)
 
     # 指定されたモード番号に応じて各学習モデルをアンサンブルする方法を切り替える
     if params.args.model_mode == 1:  # 平均
