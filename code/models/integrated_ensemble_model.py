@@ -4,11 +4,11 @@ from torchvision import models
 
 
 class IntegratedEnsembleModel(nn.Module):
-    def __init__(self, settings):
+    def __init__(self, params):
         super().__init__()
 
         # VGG16のモデルをロード
-        if settings.args.no_pretrained:
+        if params.args.no_pretrained:
             self.network = models.vgg16(pretrained=False)  # 1からの学習
         else:
             self.network = models.vgg16(pretrained=True)  # fine-tuning
@@ -17,7 +17,8 @@ class IntegratedEnsembleModel(nn.Module):
         vgg_lt = list(self.network.classifier)
 
         # VGG16の最終層の次元を変更する
-        vgg_lt[6] = nn.Linear(4096, settings.config['num_class'], bias=True)
+        num_class = params.yaml[params.yaml['use_dataset']]['num_family']
+        vgg_lt[6] = nn.Linear(4096, num_class, bias=True)
         self.network.classifier = nn.Sequential(vgg_lt[0], vgg_lt[1], vgg_lt[2], vgg_lt[3],
                                                 vgg_lt[4], vgg_lt[5], vgg_lt[6])
 
@@ -25,7 +26,7 @@ class IntegratedEnsembleModel(nn.Module):
         self.network2 = self.network
         self.network3 = self.network
 
-        self.linear = nn.Linear(settings.config['num_class'] * 3, settings.config['num_class'], bias=True)
+        self.linear = nn.Linear(num_class * 3, num_class, bias=True)
 
     # 順伝播
     def forward(self, x1, x2, x3):
@@ -39,11 +40,11 @@ class IntegratedEnsembleModel(nn.Module):
 
 
 class IntegratedEnsembleModelAddAllsection(nn.Module):
-    def __init__(self, settings):
+    def __init__(self, params):
         super().__init__()
 
         # VGG16のモデルをロード
-        if settings.args.no_pretrained:
+        if params.args.no_pretrained:
             self.network = models.vgg16(pretrained=False)  # 1からの学習
         else:
             self.network = models.vgg16(pretrained=True)  # fine-tuning
@@ -52,7 +53,8 @@ class IntegratedEnsembleModelAddAllsection(nn.Module):
         vgg_lt = list(self.network.classifier)
 
         # VGG16の最終層の次元を変更する
-        vgg_lt[6] = nn.Linear(4096, settings.config['num_class'], bias=True)
+        num_class = params.yaml[params.yaml['use_dataset']]['num_family']
+        vgg_lt[6] = nn.Linear(4096, num_class, bias=True)
         self.network.classifier = nn.Sequential(vgg_lt[0], vgg_lt[1], vgg_lt[2], vgg_lt[3],
                                                 vgg_lt[4], vgg_lt[5], vgg_lt[6])
 
@@ -61,7 +63,7 @@ class IntegratedEnsembleModelAddAllsection(nn.Module):
         self.network3 = self.network
         self.network4 = self.network
 
-        self.linear = nn.Linear(settings.config['num_class'] * 4, settings.config['num_class'], bias=True)
+        self.linear = nn.Linear(num_class * 4, num_class, bias=True)
 
     # 順伝播
     def forward(self, x1, x2, x3, x4):

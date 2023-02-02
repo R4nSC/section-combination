@@ -8,7 +8,7 @@ from torch.optim import lr_scheduler
 
 sys.path.append('../')
 from models import IntegratedEnsembleModel, IntegratedEnsembleModelAddAllsection
-from evaluation_phase import calc_results_from_predicts_and_labels
+from ..evaluation_phase import calc_results_from_predicts_and_labels
 
 
 def train_integrated_ensemble_model(params, model, data_loaders, datasets_size, criterion,
