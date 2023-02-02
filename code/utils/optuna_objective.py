@@ -41,7 +41,7 @@ def objective_variable(params: argparse.Namespace, features: dict, labels: dict)
         elif params.args.model_mode == 4:  # SVM
             C_num = trial.suggest_uniform('C', 0.001, 100)
             gamma = trial.suggest_uniform('gamma', 0.0001, 0.1)
-            kernel = trial.suggest_categorical('kernel', ['poly', 'rbf', 'sigmoid'])
+            kernel = trial.suggest_categorical('kernel', ['poly', 'rbf'])
             classifier = SVC(C=C_num, gamma=gamma, kernel=kernel)
         elif params.args.model_mode == 5:  # LR
             # solver = trial.suggest_categorical('solver', ['newton-cg', 'lbfgs', 'liblinear', 'sag'])

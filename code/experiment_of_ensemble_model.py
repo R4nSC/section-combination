@@ -58,11 +58,6 @@ if __name__ == '__main__':
             results[_fold] = train_and_evaluation_of_ensemble_model(params, logger, data_loaders, data_sizes)
             logger.info("Finished FOLD %s cross validation.", _fold + 1)
 
-            # if settings.args.result_analysis:
-            #     missed_memo = open(settings.config['log_dir']['failed_sample'], 'a', encoding='UTF-8')
-            #     missed_memo.write('\n')
-            #     missed_memo.close()
-
         # 交差検証の結果を出力する
         total = {}
         for key, value in results.items():
@@ -86,8 +81,3 @@ if __name__ == '__main__':
         _dataset, data_loaders, data_sizes = load_datasets(params, mode=0)
         logger.info("Finished loading the datasets.")
         train_and_evaluation_of_ensemble_model(params, logger, data_loaders, data_sizes)
-
-        # if settings.args.result_analysis:
-        #     missed_memo = open(settings.config['log_dir']['failed_sample'], 'a', encoding='UTF-8')
-        #     missed_memo.write('\n')
-        #     missed_memo.close()

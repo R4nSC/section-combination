@@ -127,8 +127,6 @@ def training_MLalgorithm(params, feature_model, data_loaders):
     # モデルから抽出した特徴量を結合する
     train_bond_vectors = create_bond_vectors(params, train_features)
     val_bond_vectors = create_bond_vectors(params, val_features)
-    # train_bond_vectors = torch.cat((train_features['text'], train_features['rdata'], train_features['data']), 1)
-    # val_bond_vectors = torch.cat((val_features['text'], val_features['rdata'], val_features['data']), 1)
 
     print(train_bond_vectors.shape)
 
