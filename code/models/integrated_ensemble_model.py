@@ -1,26 +1,21 @@
 import torch
 import torch.nn as nn
-from torchvision import models
+
+from .vgg import Vgg16
+from .resnet import ResNet50
 
 
 class IntegratedEnsembleModel(nn.Module):
     def __init__(self, params):
         super().__init__()
 
-        # VGG16のモデルをロード
-        if params.args.no_pretrained:
-            self.network = models.vgg16(pretrained=False)  # 1からの学習
+        # VGG16 or ResNet50のモデルをロード
+        if params.args.network == 'vgg16':
+            self.network = Vgg16(params, self.load_parameter_path)
         else:
-            self.network = models.vgg16(pretrained=True)  # fine-tuning
+            self.network = ResNet50(params, self.load_parameter_path)
 
-        # VGG16のネットワーク構成をリストとして保持
-        vgg_lt = list(self.network.classifier)
-
-        # VGG16の最終層の次元を変更する
         num_class = params.yaml[params.yaml['use_dataset']]['num_family']
-        vgg_lt[6] = nn.Linear(4096, num_class, bias=True)
-        self.network.classifier = nn.Sequential(vgg_lt[0], vgg_lt[1], vgg_lt[2], vgg_lt[3],
-                                                vgg_lt[4], vgg_lt[5], vgg_lt[6])
 
         # 次元を変更したモデルを2つ複製して合計3つのモデルを用意する
         self.network2 = self.network
@@ -43,20 +38,13 @@ class IntegratedEnsembleModelAddAllsection(nn.Module):
     def __init__(self, params):
         super().__init__()
 
-        # VGG16のモデルをロード
-        if params.args.no_pretrained:
-            self.network = models.vgg16(pretrained=False)  # 1からの学習
+        # VGG16 or ResNet50のモデルをロード
+        if params.args.network == 'vgg16':
+            self.network = Vgg16(params, self.load_parameter_path)
         else:
-            self.network = models.vgg16(pretrained=True)  # fine-tuning
+            self.network = ResNet50(params, self.load_parameter_path)
 
-        # VGG16のネットワーク構成をリストとして保持
-        vgg_lt = list(self.network.classifier)
-
-        # VGG16の最終層の次元を変更する
         num_class = params.yaml[params.yaml['use_dataset']]['num_family']
-        vgg_lt[6] = nn.Linear(4096, num_class, bias=True)
-        self.network.classifier = nn.Sequential(vgg_lt[0], vgg_lt[1], vgg_lt[2], vgg_lt[3],
-                                                vgg_lt[4], vgg_lt[5], vgg_lt[6])
 
         # 次元を変更したモデルを3つ複製して合計4つのモデルを用意する
         self.network2 = self.network
