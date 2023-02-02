@@ -100,22 +100,12 @@ if __name__ == '__main__':
             logger.info("Finished FOLD %s cross validation.", _fold + 1)
 
         # 交差検証の結果を出力する
-        total = {}
+        total = 0.0
         for key, value in results.items():
-            for mode in params.yaml['all_model_mode']:
-                print(f'Model {mode} Fold {key}: {value[mode]}')
-                if key == 0:
-                    total[mode] = value[mode]
-                else:
-                    total[mode] += value[mode]
-                print(f'Model builtin-{mode} Fold {key}: {value[mode+10]}')
-                if key == 0:
-                    total[mode + 10] = value[mode + 10]
-                else:
-                    total[mode + 10] += value[mode + 10]
-        for mode in params.yaml['all_model_mode']:
-            print(f'\nModel{mode} Cross-Validation Average: {total[mode] / len(results.items())}')
-            print(f'\nModel builtin-{mode} Cross-Validation Average: {total[mode + 10] / len(results.items())}')
+            print(f'Fold {key}: {value}')
+            total += value
+
+        print(f'\nCross-Validation Average: {total / len(results.items())}')
     else:
         # .text/.rdata/.dataの3セクションをすべて持つサンプルからデータセットを作成
         logger.info("Started loading the datasets.")
