@@ -1,5 +1,6 @@
 from .evaluation_phase import evaluation_of_ensemble_model
 from .training_phase import train_of_ensemble_model
+from .integrated_ensemble import train_of_integrated_ensemble_model
 
 # アンサンブル型マルウェア分類モデルの学習および評価
 def train_and_evaluation_of_ensemble_model(params, logger, data_loaders, data_sizes):
@@ -12,7 +13,12 @@ def train_and_evaluation_of_ensemble_model(params, logger, data_loaders, data_si
         section_name = 'allSection'
         model_ft[section_name], accuracy = train_of_ensemble_model(params, data_loaders[section_name], data_sizes[section_name], section=section_name)
         logger.info("Finished training model by allSection images.")
-
+    # 特徴統合型の学習および評価
+    elif params.args.model_mode == 2:
+        logger.info("Started training integrated ensemble model.")
+        section_name = 'integrated'
+        model_ft[section_name], accuracy = train_of_integrated_ensemble_model(params, data_loaders, data_sizes, evaluation_flag=True)
+        logger.info("Finished training integrated ensemble model.")
     else:
         # 各セクション単体画像のモデルを学習および評価する
         logger.info("Started training model by section stand-alone images.")
