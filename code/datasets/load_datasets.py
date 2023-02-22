@@ -116,9 +116,14 @@ def load_datasets_as_single_loader(params):
     # 3つの単体画像とそれらのラベルを含むデータセットを作成する
     # TODO: 3つの単体画像が同じサンプルかどうかチェックできていない（結果がそれなりになれば多分大丈夫）
 
-    ensemble_datasets = {x: data.TensorDataset(images_tensor['text'][x], images_tensor['rdata'][x],
-                         images_tensor['data'][x], labels_tensor[x])
-                         for x in ['train', 'val', 'test']}
+    if params.args.ensemble_add_allsection:
+        ensemble_datasets = {x: data.TensorDataset(images_tensor['allSection'][x], images_tensor['text'][x],
+                            images_tensor['rdata'][x], images_tensor['data'][x], labels_tensor[x])
+                            for x in ['train', 'val', 'test']}
+    else:
+        ensemble_datasets = {x: data.TensorDataset(images_tensor['text'][x], images_tensor['rdata'][x],
+                            images_tensor['data'][x], labels_tensor[x])
+                            for x in ['train', 'val', 'test']}
 
     # 3つの単体画像とそれらのラベルを含むデータローダを作成する
     data_loaders = {x: data.DataLoader(ensemble_datasets[x], batch_size=params.args.batch_size)

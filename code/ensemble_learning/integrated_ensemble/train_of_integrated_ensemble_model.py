@@ -153,8 +153,10 @@ def return_output_of_model(params, model, data):
 # アンサンブル型モデルの学習を行う
 def train_of_integrated_ensemble_model(params, data_loaders, datasets_size, evaluation_flag=False):
     if params.args.ensemble_add_allsection:
+        print('add-section')
         model = IntegratedEnsembleModelAddAllsection(params)
     else:
+        print('no-add-section')
         model = IntegratedEnsembleModel(params)
 
     if params.args.debug:

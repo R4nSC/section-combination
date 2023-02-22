@@ -52,6 +52,12 @@ def create_dataset_folder_for_ensemble(params, logger):
 
                 # 対象画像ファイルをコピーする
                 shutil.copy(single_image_path, os.path.join(ensemble_data_path, section_name, label, filename))
+
+            original_image_path = os.path.join(params.yaml[params.yaml['use_dataset']]['root'], params.yaml['dirs']['images'], label, filename[:-4] + '.png')
+            # 保存するディレクトリがなければ作成する
+            os.makedirs(os.path.join(ensemble_data_path, 'allSection_original', label), exist_ok=True)
+            # 対象画像ファイルをコピーする
+            shutil.copy(original_image_path, os.path.join(ensemble_data_path, 'allSection_original', label, filename))
     print("--- Finished creating a dataset folder for ensemble-learning ---\n")
 
 

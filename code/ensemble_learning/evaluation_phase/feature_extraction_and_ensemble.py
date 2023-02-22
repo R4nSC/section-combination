@@ -148,7 +148,7 @@ def training_MLalgorithm(params, feature_model, data_loaders):
     # optunaによるハイパラチューニング
     sampler = optuna.samplers.TPESampler(seed=0)
     study = optuna.create_study(sampler=sampler, direction="maximize")
-    study.optimize(objective_variable(params, features, labels), n_trials=100, gc_after_trial=True)
+    study.optimize(objective_variable(params, features, labels), n_trials=10, gc_after_trial=True)
 
     print(f'Best Train Accuracy: {study.best_value}')
     print(f'Best Parameter: {study.best_params}')

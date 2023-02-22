@@ -10,15 +10,29 @@ fi
 echo "Ensemble Model Experiment Using Cross-Validation"
 echo "epoch: $2, batchsize: $3, model: pretrained"
 
-python experiment_of_integrated_ensemble_model.py -n vgg16 -e $2 -b $3 -m 2 --cross-validation > ../logs/vgg16_integrated_cv1.txt
+# for i in `seq 1 10`
+# do
+#     python experiment_of_ensemble_model.py -n vgg16 -e $2 -b $3 -m 1 --cross-validation > ../logs/vgg16_original_cv7$i.txt
+# done
 
-python experiment_of_integrated_ensemble_model.py -n vgg16 -e $2 -b $3 -m 2 --cross-validation --ensemble-add-allsection > ../logs/vgg16_integrated_cv1_add-allsection.txt
-
-python experiment_of_integrated_ensemble_model.py -n resnet50 -e $2 -b $3 -m 2 --cross-validation > ../logs/resnet50_integrated_cv1.txt
-
-python experiment_of_integrated_ensemble_model.py -n resnet50 -e $2 -b $3 -m 2 --cross-validation --ensemble-add-allsection > ../logs/resnet50_integrated_cv1_add-allsection.txt
+# python experiment_of_ensemble_model.py -n resnet50 -e $2 -b $3 -m 1 --cross-validation > ../logs/resnet50_original_cv5.txt
 
 for i in `seq 1 10`
 do
-    python experiment_of_ensemble_model.py -n resnet50 -e $2 -b $3 -m 4 > ../logs/resnet50_svm$i.txt
+  python experiment_of_integrated_ensemble_model.py -n resnet50 -d BIG2015 -e $2 -b $3 -m 2 --cross-validation > ../logs/BIG2015/resnet50_integrated_cv$i.txt
+  python experiment_of_integrated_ensemble_model.py -n resnet50 -d BIG2015 -e $2 -b $3 -m 2 --cross-validation --ensemble-add-allsection > ../logs/BIG2015/resnet50_integrated_add-allsection_cv$i.txt
+
+  python experiment_of_integrated_ensemble_model.py -n resnet50 -d Malimg -e $2 -b $3 -m 2 --cross-validation > ../logs/Malimg/resnet50_integrated_cv$i.txt
+  python experiment_of_integrated_ensemble_model.py -n resnet50 -d Malimg -e $2 -b $3 -m 2 --cross-validation --ensemble-add-allsection > ../logs/Malimg/resnet50_integrated_add-allsection_cv$i.txt
+
+  python experiment_of_integrated_ensemble_model.py -n vgg16 -d BIG2015 -e $2 -b $3 -m 2 --cross-validation > ../logs/BIG2015/vgg16_integrated_cv$i.txt
+  python experiment_of_integrated_ensemble_model.py -n vgg16 -d BIG2015 -e $2 -b $3 -m 2 --cross-validation --ensemble-add-allsection > ../logs/BIG2015/vgg16_integrated_add-allsection_cv$i.txt
+
+  python experiment_of_integrated_ensemble_model.py -n vgg16 -d Malimg -e $2 -b $3 -m 2 --cross-validation > ../logs/Malimg/vgg16_integrated_cv$i.txt
+  python experiment_of_integrated_ensemble_model.py -n vgg16 -d Malimg -e $2 -b $3 -m 2 --cross-validation --ensemble-add-allsection > ../logs/Malimg/vgg16_integrated_add-allsection_cv$i.txt
 done
+
+# for i in `seq 1 10`
+# do
+#     python experiment_of_ensemble_model.py -n resnet50 -e $2 -b $3 -m 4 > ../logs/resnet50_svm$i.txt
+# done

@@ -40,7 +40,7 @@ class ConfigParameter():
                             choices=['masked', 'deleted', 'single'],
                             help='type of image to create (default: masked)')
         parser.add_argument('--setup-reset', action='store_true',
-                            help='Flag for image generation reset(default: False')
+                            help='Flag for image generation reset(default: False)')
 
         parser.add_argument('-n', '--network', default='vgg16',
                             choices=['vgg16', 'resnet50'],
@@ -51,6 +51,9 @@ class ConfigParameter():
                             help='mini-batch size (default: 100)')
         parser.add_argument('-m', '--model-mode', default=0, type=int,
                             help='mode of ensemble model (default: 0)')
+        parser.add_argument('-d', '--dataset', default='BIG2015',
+                            choices=['BIG2015', 'Malimg'],
+                            help='Using training and evaluating dataset (default: BIG2015)')
         parser.add_argument('--no-pretrained', action='store_true',
                             help='Flag for not using pre-trained model (default: False)')
         parser.add_argument('--gui', action='store_true',
