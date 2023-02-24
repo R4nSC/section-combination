@@ -12,6 +12,9 @@ if __name__ == '__main__':
     params = ConfigParameter()
     logger = make_logger()
 
+    params.yaml['use_dataset'] = params.args.dataset
+    print(params.yaml['use_dataset'])
+
     if params.args.cross_validation:
         first_section_name = 'text'
         images_data = {}

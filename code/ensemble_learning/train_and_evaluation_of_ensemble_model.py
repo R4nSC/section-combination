@@ -46,6 +46,7 @@ def train_and_evaluation_of_ensemble_model(params, logger, data_loaders, data_si
         logger.info("Started evaluating ensemble model.")
         # accuracy = evaluation_of_ensemble_model(params, logger, model_ft, data_loaders)
         # 組み込みなし
+        print(params.yaml['ensemble_section_list'])
         for mode in params.yaml['all_model_mode']:
             print(f"--- Test ensemble model Number {mode}---\n")
             params.args.model_mode = mode

@@ -13,8 +13,8 @@ def evaluation_of_ensemble_model(params, logger, features_models, data_loaders):
     # 指定されたモード番号に応じて各学習モデルをアンサンブルする方法を切り替える
     if params.args.model_mode == 1:  # 平均
         prediction_class = ensemble_by_average(params, all_pred_by_section)
-    elif params.args.model_mode == 2:  # 多数決 TODO:今後実装予定
-        prediction_class = ensemble_by_voting(all_pred_by_section)
+    elif params.args.model_mode == 6:  # 多数決 TODO:今後実装予定
+        prediction_class = ensemble_by_voting(params, all_pred_by_section)
     else:  # MLアルゴリズムを使った分類
         logger.info("Started learning ensemble with machine learning algorithm.")
         ML_classifier = training_MLalgorithm(params, features_models, data_loaders)

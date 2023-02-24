@@ -87,8 +87,22 @@ def ensemble_by_average(params, predicts):
 
 # 最終全結合層の出力を多数決するアンサンブル方法
 # TODO: 今後余裕があれば実装する
-def ensemble_by_voting(predicts):
-    prediction_class = 0
+def ensemble_by_voting(params, predicts):
+    print(predicts['text'])
+    print(predicts['data'])
+    print(predicts['text'] + predicts['data'])
+    # モデルからの出力結果のサイズ分のTensorを用意してゼロ初期化する
+    pred_total = torch.zeros(predicts['text'].size())
+    # 元々のpredと計算デバイスを合わせるために，明示的にデバイスを指定する
+    pred_total = pred_total.to(params.device)
+
+    # 3つのモデルの出力結果を足し合わせる
+    for section_name in params.yaml['ensemble_section_list']:
+        pred_total += predicts[section_name]
+
+    prediction_class = torch.argmax(pred_total, dim=1)
+    print(prediction_class)
+    print(prediction_class.shape)
     return prediction_class
 
 
