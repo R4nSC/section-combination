@@ -42,6 +42,7 @@ class ConfigParameter():
         parser.add_argument('--setup-reset', action='store_true',
                             help='Flag for image generation reset(default: False)')
 
+        # experiment系
         parser.add_argument('-n', '--network', default='vgg16',
                             choices=['vgg16', 'resnet50'],
                             help='models network architecture (default: vgg)')
