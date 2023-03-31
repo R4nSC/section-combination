@@ -5,7 +5,7 @@
 ## ディレクトリ構成
 
 > **Warning**
-> 重要な箇所のみを説明しており，一部省略しています
+> 重要な箇所のみを説明しており，一部省略しています．
 
 ```shell-session
 section-combination/
@@ -82,8 +82,8 @@ section-combination/
 
 4. `resources/`内の画像を生成したデータセットのディレクトリに`ensemble/`ディレクトリがあることを確認し，`code/experiment_of_ensemble_model.py`もしくは`code/experiment_of_integrated_ensemble_model.py`の実験用プログラムを実行する．
     > **Warning**
-    > parse_args.pyに下記以上のパラメータが指定できるよう書いてあるが，途中でプログラムの全面改変を行なっているため，動作しない引数がある可能性あり．
-    > 動作を確認しているパラメータを下記に記載していることを留意してほしい．
+    > parse_args.pyに下記以上のパラメータが指定できるよう書いてあるが，途中でプログラムの全面改変を行なっているため，動作しない引数がある可能性があります．
+    > 動作を確認しているパラメータを下記に記載していることを留意してください．
 
     - コマンドライン引数によって検証パラメータを指定する
         - `-n, --network` : 利用するCNNモデル（"vgg16", "resnet50"）
@@ -91,11 +91,18 @@ section-combination/
         - `-b, --batch-size` : バッチサイズ数
         - `-m, --model-mode` : アンサンブルモデルの種類（0->original, 1->average, 3->RF, 4->SVM, 5->LR, 6->voting）
         - `-d, --dataset` : データセット（"BIG2015", "Malimg"）
+    ---
+    ```shell-session
+    # 実行例
+    $ cd code
+    $ python experiment_of_ensemble_model.py -n vgg16 -e 25 -b 6 -m 1 -d BIG2015
+    ```
 
 ## Note
 
-プログラムについて分からないことがあれば@takeuchiまで
+- 検証結果は出力リダイレクションを用いて外部ファイルに出力し，手動で結果をまとめていました．結果をまとめる方法は引き継いだ人にお任せします（CSVファイルに出力してExcelにまとめる，等々）．
+- プログラムについて分からないことがあれば@takeuchiまで
 
 ## License
 
-本プロジェクトは社外秘（Confidential）である．
+- 本プロジェクトは社外秘（Confidential）である．
